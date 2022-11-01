@@ -77,7 +77,13 @@ def main(gameweek, savedir):
     for count, i in enumerate(gw_ids):
         print('Getting player data {} of {} ({:.1f}%)'.format(
             count+1, len(gw_ids), (count+1)*100/len(gw_ids)), end='\r')
-        gw_player_data = get_gameweek_stats(gw=gameweek, player_id=i)
+
+        # If a player didn't play that week skip (e.g. fixture postponement)
+        try:
+            gw_player_data = get_gameweek_stats(gw=gameweek, player_id=i)
+        except IndexError:
+            continue
+
         gw_player_stats.append(gw_player_data)
 
     print()
